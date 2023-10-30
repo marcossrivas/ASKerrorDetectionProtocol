@@ -1,0 +1,24 @@
+- Modelo: MX-05V
+- Voltaje: DC5V
+- Corriente: 4MA
+- Frecuencia: 433.92 MHz
+- Sensibilidad:-105DB
+- Antena: 32 cm de alambre de núcleo único, forma de helio
+- Tamaño: 30*14*7mm
+- Modelo: MX-FS-03V
+- Distancia del transmisor: 20-200 metros (influyó en la tensión)
+- Voltaje: 3.5-12 V
+- Tamaño: 19*19mm
+- Modo de trabajo: AM
+- Velocidad del transmisor: 4kb/s
+- Potencia del transmisor: 10 MW
+- Frecuencia: 433 m
+- Antena: Alambre de un solo núcleo de 25 cm o alambre de mutil-núcleo
+- Arreglo PIN: izquierda-derecha (datos; VCC; GND)
+- Distancia de lanzamiento: 20-200 metros
+- Tensión de funcionamiento: 19*19mm
+- Tensión de funcionamiento: 3.5-12 V
+- Velocidad de transferencia: 4kb/s 
+- Potencia de transmisión: 10 MW
+- Frecuencia de transmisión: 433 MHz
+
