@@ -33,5 +33,7 @@ void loop()
     
     Module.send(messagePtr, sizeof(message));
 
+    Module.waitPacketSent();
+
     delay(150); //ajustar
 }
