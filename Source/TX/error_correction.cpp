@@ -1,1 +1,6 @@
-//se necesita otro par para hacer canal bidireccional 
+#include "error_correction.h"
+
+void Checksum::updateData(int value)
+{
+    data = value;
+}

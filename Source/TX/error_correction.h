@@ -1,3 +1,15 @@
 #pragma once
 
-//pruebaa!
+class Checksum
+{
+private:
+
+    int data;
+
+public:
+
+    Checksum() : data(0) {}
+
+    void updateData(int value);
+    
+};
