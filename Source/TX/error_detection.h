@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-class Checksum
+class ErrorDetec
 {
 private:
 
@@ -14,7 +14,7 @@ private:
 
 public:
 
-    Checksum() : lowData(0) , highData(0) {}
+   ErrorDetec() : lowData(0) , highData(0) {}
 
     void updateData(const uint8_t& lowData,const uint8_t& highData);
     int bitCounter();
@@ -24,6 +24,6 @@ public:
     uint8_t getlowData();
     uint8_t gethighData();
 
-    ~Checksum() {}
+    ~ErrorDetec() {}
 
 };
