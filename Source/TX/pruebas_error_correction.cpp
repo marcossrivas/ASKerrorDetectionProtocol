@@ -32,7 +32,8 @@ for(int i= 0; i<2; i++)
 
 //paridad data
  int paridad_data_bit;//par
-if (sum % 2 == 0) {
+if (sum % 2 == 0) 
+{
     paridad_data_bit = 0;
     } else {
     paridad_data_bit = 1;

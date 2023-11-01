@@ -5,14 +5,13 @@ class Checksum
 {
 private:
 
-    int8_t lowData;
-    int8_t highData;
+    int8_t lowData {};
+    int8_t highData {};
 
-    int checkSum; 
-    int dataParityBit;
-    int checkSumParityBit;
-    int CheckSumCount;
-
+    int checkSum {}; 
+    int dataParityBit {};
+    int checkSumParityBit {};
+    int CheckSumCount {};
 
 public:
 
@@ -22,10 +21,9 @@ public:
     int bitCounter();
     int dataParity();
     int checksumParity();
+    int8_t getlowData();
+    int8_t gethighData();
 
-
-
-
-
+    ~Checksum() {}
 
 };
