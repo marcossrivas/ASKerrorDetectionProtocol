@@ -64,7 +64,8 @@ uint8_t ErrorDetec::getlowData()
 
 uint8_t ErrorDetec::gethighData()
 {
-    uint8_t highData = (checkSumParityBit * 128) + (dataParityBit * 64) + (checkSum * 4) + this->highData;
+    uint8_t highData = (checkSumParityBit << 7) | (dataParityBit << 6) | (checkSum << 2) | this->highData;
+    //uint8_t highData = (checkSumParityBit * 128) + (dataParityBit * 64) + (checkSum * 4) + this->highData;
     return highData;
 }
 

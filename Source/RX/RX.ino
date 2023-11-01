@@ -20,14 +20,15 @@ void setup()
 
 void loop() 
 { 
-  
   byte message[4];
   byte* buffer = &message[0];
   byte messageLenght = sizeof(message);
-  
+
+  format.initFormat(buffer);
+
   if (module.recv(buffer,&messageLenght))
   {
-    if (format.checkStop() && format.checkStart() && format.checkParity() && format.checkSum())
+    if (format.checkStart() && format.checkParity() && format.checkSum() && format.checkStop())
     {
       byte highData = format.gethighData();
       byte lowData = format.getlowData();
