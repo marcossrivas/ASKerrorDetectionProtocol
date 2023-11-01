@@ -23,27 +23,30 @@ void loop()
     potValue = analogRead(POT_INPUT);
     checksum.updateData(lowByte(potValue),highByte(potValue));
 
-    Serial.println("---------");
-    Serial.println("----LOW-----");
-    Serial.println(lowByte(potValue), BIN);
-    Serial.println(checksum.getlowData(), BIN);
-    Serial.println("-----HIGH------");
-    Serial.println(highByte(potValue), BIN);
-    Serial.println(checksum.gethighData(), BIN);
-    Serial.println("---------");
+    //Serial.println("---------");
+    //Serial.println("----LOW-----");
+    //Serial.println(lowByte(potValue), BIN);
+    //Serial.println(checksum.getlowData(), BIN);
+   // Serial.println("-----HIGH------");
+   // Serial.println(highByte(potValue), BIN);
+    //Serial.println(checksum.gethighData(), BIN);
+    //Serial.println("---------");
 
     // creo mensaje, consta de 4 partes... byte de start... x2 byte de datos (10 bits del adc, puedo aprovechar los 6 bit que me sobran para redundancias! )
-    //byte message[4]; // array of bite_word type, size 4
-    //message[0] = 0b10101010; // Byte de start  10101010
-   // message[1] = checksum.gethighData(); // parte alta de potvalue
-   // message[2] = checksum.getlowData();  // parte baja de potvalue
-   // message[3] = 0b01010101; // byte de stop 01010101
+    byte message[4]; // array of bite_word type, size 4
+    message[0] = 0b10101010; // Byte de start  10101010
+    message[1] = checksum.gethighData(); // parte alta de potvalue
+    message[2] = checksum.getlowData();  // parte baja de potvalue
+    message[3] = 0b01010101; // byte de stop 01010101
 
-   // byte* messagePtr = &message[0];
-    
-   // module.send(messagePtr, sizeof(message));
+    byte* messagePtr = &message[0];
+    Serial.println(message[0], BIN);
+    Serial.println(message[1], BIN);
+    Serial.println(message[2], BIN);
+    Serial.println(message[3], BIN);
+    module.send(messagePtr, sizeof(message));
 
-   // module.waitPacketSent();
+    module.waitPacketSent();
 
     delay(12000); //ajustar 
 }
