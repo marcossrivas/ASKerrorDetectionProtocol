@@ -1,6 +1,6 @@
 #include "error_correction.h"
 
-void Checksum::updateData(const int8_t& lowData,const int8_t& highData)
+void Checksum::updateData(const uint8_t& lowData,const uint8_t& highData)
 {
     this->lowData = lowData;
     this->highData = highData;
@@ -9,7 +9,7 @@ void Checksum::updateData(const int8_t& lowData,const int8_t& highData)
 int Checksum::bitCounter()
 {
     int lowCounter = 0;
-    int8_t lowData = this->lowData; //cuento bits parte baja
+    uint8_t lowData = this->lowData; //cuento bits parte baja
 
     for(int i = 0; i < 8; i++)
     { 
@@ -18,7 +18,7 @@ int Checksum::bitCounter()
     }
 
     int highCounter = 0;
-    int8_t highData = this->highData; //cuento bits parte alta
+    uint8_t highData = this->highData; //cuento bits parte alta
     
     for(int i = 0; i < 2; i++)
     {
@@ -26,17 +26,20 @@ int Checksum::bitCounter()
         highData = highData >> 1;
     }
     
-    return checkSum = lowCounter + highCounter;
+    return checkSum = (lowCounter + highCounter);
 }
 
 int Checksum::dataParity()
 {
     if (checkSum % 2 == 0) {dataParityBit = 0;}
-    else {dataParityBit =1;}
+    else {dataParityBit = 1;}
+
+    return dataParityBit;
 }
 
 int Checksum::checksumParity()
 {
+    int CheckSumCount = 0;
     int checkSum = this->checkSum;
 
     for(int i = 0; i<4; i++)
@@ -48,16 +51,18 @@ int Checksum::checksumParity()
     if(CheckSumCount %2 == 0){checkSumParityBit = 0;}
     else {checkSumParityBit = 1;}
 
-    return CheckSumCount , checkSumParityBit;
+    return checkSumParityBit;
 }
 
-int8_t Checksum::getlowData()
+
+uint8_t Checksum::getlowData()
 {
     return lowData;
 }
 
-int8_t Checksum::gethighData()
+uint8_t Checksum::gethighData()
 {
-    return highData = (CheckSumCount*64) + (checkSum*4) + highData;
+    uint8_t highData = (checkSumParityBit * 128) + (dataParityBit * 64) + (checkSum * 4) + this->highData;
+    return highData;
 }
 

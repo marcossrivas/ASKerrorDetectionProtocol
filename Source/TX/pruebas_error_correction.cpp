@@ -1,76 +1,121 @@
-#include <iostream>
-#include <bitset>
-#include <stdint.h>
+/*#include <stdint.h>
+#include<iostream>
+#include<bitset>
+
+class Checksum
+{
+private:
+    static uint8_t lowData;
+    static uint8_t highData;
+    static int checkSum; 
+    static int dataParityBit;
+    static int checkSumParityBit;
+    static int CheckSumCount;
+
+public:
+    void updateData();
+    int calculateChecksum();
+    int calculateDataParity();
+    int calculateChecksumParity();
+    static uint8_t getlowData();
+    static uint8_t gethighData();
+
+    ~Checksum() {}
+};
+
+uint8_t Checksum::lowData = 0;
+uint8_t Checksum::highData = 0;
+int Checksum::checkSum = 0;
+int Checksum::dataParityBit = 0;
+int Checksum::checkSumParityBit = 0;
+int Checksum::CheckSumCount = 0;
+
+
+void Checksum::updateData()
+{
+    lowData = 0b11101011;
+    highData = 0b00000010;
+}
+
+int Checksum::calculateChecksum()
+{
+    // Calculate checksum and return it
+    int lowCounter = 0;
+    uint8_t lowData = Checksum::lowData;
+
+    for(int i = 0; i < 8; i++)
+    { 
+        lowCounter += lowData & 1;
+        lowData = lowData >> 1;
+    }
+
+    int highCounter = 0;
+    uint8_t highData = Checksum::highData;
+
+    for(int i = 0; i < 2; i++)
+    {
+        highCounter += highData & 1;
+        highData = highData >> 1;
+    }
+
+    checkSum = lowCounter + highCounter;
+    return checkSum;
+}
+
+int Checksum::calculateDataParity()
+{
+    if (checkSum % 2 == 0) {
+        dataParityBit = 0;
+    } else {
+        dataParityBit = 1;
+    }
+    return dataParityBit;
+}
+
+int Checksum::calculateChecksumParity()
+{
+    int checkSum = Checksum::checkSum;
+    int CheckSumCount = 0;
+
+    for(int i = 0; i < 4; i++)
+    {
+        CheckSumCount += checkSum & 1;
+        checkSum = checkSum >> 1;
+    }
+
+    if(CheckSumCount % 2 == 0) {
+        checkSumParityBit = 0;
+    } else {
+        checkSumParityBit = 1;
+    }
+
+    //Checksum::CheckSumCount = CheckSumCount;
+    //Checksum::checkSumParityBit = checkSumParityBit;
+    return checkSumParityBit;
+}
+
+uint8_t Checksum::getlowData()
+{
+    std::cout << "lowout " << std::bitset<8>(lowData) << std::endl;
+    return lowData;
+    
+}
+
+uint8_t Checksum::gethighData()
+{
+    uint8_t highData = (checkSumParityBit * 128) + (dataParityBit * 64) + (checkSum * 4) + Checksum::highData;
+    std::cout << "highout " << std::bitset<8>(highData) << std::endl;
+    return highData;
+}
 
 int main()
-
 {
-    int8_t lowdata_in= 0b11000111 ;
-    int8_t highdata_in= 0b00000011;
-
-    int countlow = 0;
-//cuento bits parte baja
-int8_t lowdata = lowdata_in;
-for(int i=0; i<8; i++)
-{
-    countlow += lowdata & 1;
-    lowdata = lowdata >> 1;
-}
-
-    int counthigh = 0;
-//cuento bits parte alta
-int8_t highdata = highdata_in;
-for(int i= 0; i<2; i++)
-{
-    counthigh += highdata & 1;
-    highdata = highdata >> 1;
-}
-//checksum
-
- int sum = counthigh + countlow;
-
-
-//paridad data
- int paridad_data_bit;//par
-if (sum % 2 == 0) 
-{
-    paridad_data_bit = 0;
-    } else {
-    paridad_data_bit = 1;
-    }
- std::cout << paridad_data_bit << std::endl;
-
-
-
- //paridad checksum
- int countchecksum;
- int checksum = sum;
- int paridad_checksum_bit;
- for(int i = 0; i<4; i++)
- {
-    countchecksum += checksum & 1;
-    checksum = checksum >> 1;
- }
-if(countchecksum %2 == 0){
-    paridad_checksum_bit = 0;
-}
-else {
-    paridad_checksum_bit = 1;
-}
-
-std::cout << paridad_checksum_bit << std::endl;
-
-
-
- // create output data
-
-    int8_t lowdata_out= lowdata_in; // se mantiene igual
-
-
-    int8_t highdata_out = (countchecksum*64) + (sum*4) + highdata_in;
-
-
-    std::cout << "lowdataout " << std::bitset<8>(lowdata_out)  << std::endl;
-    std::cout << "highdataout " << std::bitset<8>(highdata_out)  << std::endl;
+    Checksum checksum;
+    checksum.updateData();
+    checksum.calculateChecksum();
+    checksum.calculateDataParity();
+    checksum.calculateChecksumParity();
+    checksum.getlowData();
+    checksum.gethighData();
     return 0;
-}
+}*/

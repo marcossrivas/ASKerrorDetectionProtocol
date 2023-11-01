@@ -5,24 +5,23 @@ class Checksum
 {
 private:
 
-    int8_t lowData {};
-    int8_t highData {};
+    uint8_t lowData {};
+    uint8_t highData {};
 
     int checkSum {}; 
     int dataParityBit {};
     int checkSumParityBit {};
-    int CheckSumCount {};
 
 public:
 
     Checksum() : lowData(0) , highData(0) {}
 
-    void updateData(const int8_t& lowData,const int8_t& highData);
+    void updateData(const uint8_t& lowData,const uint8_t& highData);
     int bitCounter();
     int dataParity();
     int checksumParity();
-    int8_t getlowData();
-    int8_t gethighData();
+    uint8_t getlowData();
+    uint8_t gethighData();
 
     ~Checksum() {}
 
