@@ -20,6 +20,7 @@ public:
     int bitCounter();
     int dataParity();
     int checksumParity();
+
     uint8_t getlowData();
     uint8_t gethighData();
 

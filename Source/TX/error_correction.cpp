@@ -1,11 +1,5 @@
 #include "error_correction.h"
 
-void Checksum::updateData(const uint8_t& lowData,const uint8_t& highData)
-{
-    this->lowData = lowData;
-    this->highData = highData;
-}
-
 int Checksum::bitCounter()
 {
     int lowCounter = 0;
@@ -54,6 +48,14 @@ int Checksum::checksumParity()
     return checkSumParityBit;
 }
 
+void Checksum::updateData(const uint8_t& lowData,const uint8_t& highData)
+{
+    this->lowData = lowData;
+    this->highData = highData;
+    bitCounter();
+    dataParity();
+    checksumParity();
+}
 
 uint8_t Checksum::getlowData()
 {

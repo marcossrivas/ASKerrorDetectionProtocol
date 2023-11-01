@@ -22,9 +22,7 @@ void loop()
 {
     potValue = analogRead(POT_INPUT);
     checksum.updateData(lowByte(potValue),highByte(potValue));
-    checksum.bitCounter();
-    checksum.dataParity();
-    checksum.checksumParity();
+
     Serial.println("---------");
     Serial.println("----LOW-----");
     Serial.println(lowByte(potValue), BIN);
