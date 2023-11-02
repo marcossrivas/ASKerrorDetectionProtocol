@@ -39,10 +39,10 @@ void loop()
     message[3] = 0b01010101; // byte de stop 01010101
 
     byte* messagePtr = &message[0];
-    Serial.println(message[0], BIN);
-    Serial.println(message[1], BIN);
-    Serial.println(message[2], BIN);
-    Serial.println(message[3], BIN);
+   // Serial.println(message[0], BIN);
+   // Serial.println(message[1], BIN);
+   // Serial.println(message[2], BIN);
+   //test Serial.println(message[3], BIN);
     module.send(messagePtr, sizeof(message));
 
     module.waitPacketSent();

@@ -31,11 +31,11 @@ public:
     int checkSumCounter();
     int getCheckSum();
 
-    bool checkStop();
+    bool checkSum();
     bool checkParitydata();
     bool checkParityCheckSum();
     bool checkParity();
-    bool checkSum();
+    bool checkStop();
     bool checkStart();
 
     uint8_t getlowData();
