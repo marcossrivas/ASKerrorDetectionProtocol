@@ -1,13 +1,5 @@
 #include "check_format.h"
 
-void CheckFormat::initFormat(const uint8_t* buffer) //listo
-{
-    startByte = buffer[0];
-    lowData = buffer[1];
-    highData = buffer[2];
-    stopByte = buffer[3];
-}
-
 void CheckFormat::extractRawData()
 {
     rawLowData = lowData;
@@ -37,6 +29,17 @@ int CheckFormat::bitCounter()//listo
     return dataBitCounter = (lowCounter + highCounter);
 }
 
+int CheckFormat::getCheckSum()
+{
+    return checkSumData = (highData & 0b00111100) >> 2;
+}
+
+bool CheckFormat::checkSum()//listo
+{
+  if (checkSumData == dataBitCounter) {return true;}
+  else {return false;}
+}
+
 int CheckFormat::checkSumCounter()
 {
     int CheckSumCount = 0;
@@ -57,7 +60,7 @@ bool CheckFormat::checkStart()//listo
     else {return false;}
 }
 
-bool CheckFormat::checkParitydata()
+bool CheckFormat::checkParitydata() //listo
 {
     int dataParityBitTx;
     dataParityBit = (highData & 0b01000000) >> 6;
@@ -69,7 +72,7 @@ bool CheckFormat::checkParitydata()
     else {return false;}
 }
 
-bool CheckFormat::checkParityCheckSum()
+bool CheckFormat::checkParityCheckSum() //listo
 {
     int checkSumParityBitTx;
     checkSumParityBit = (highData & 0b10000000) >> 7;
@@ -81,23 +84,30 @@ bool CheckFormat::checkParityCheckSum()
     else {return false;}
 }
 
-bool CheckFormat::checkParity()//falta estaaa
+bool CheckFormat::checkParity()//falta esta
 {
     if(checkParitydata() && checkParityCheckSum()) {return true;}
     else {return false;}
-}
-
-bool CheckFormat::checkSum()//listo
-{
-  checkSumData = (highData & 0b00111100) >> 2;
-  if (checkSumData == dataBitCounter) {return true;}
-  else {return false;}
 }
 
 bool CheckFormat::checkStop() //listo
 {
     if (stopByte == 0b01010101) {return true;}
     else {return false;}
+}
+void CheckFormat::initFormat(const uint8_t* buffer) //listo
+{
+    startByte = buffer[0];
+    highData = buffer[1];
+    lowData = buffer[2];
+    stopByte = buffer[3];
+
+    extractRawData();
+    bitCounter();
+    getCheckSum();
+    checkSumCounter();
+    checkParitydata();
+    checkParityCheckSum();
 }
 
 uint8_t CheckFormat::getlowData()//listo

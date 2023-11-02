@@ -6,8 +6,8 @@ class CheckFormat
 private:
 
     uint8_t startByte {};
-    uint8_t lowData {};
     uint8_t highData {};
+    uint8_t lowData {};
     uint8_t stopByte {};
 
     int checkSumData {}; //4 bit data
@@ -29,6 +29,7 @@ public:
 
     int bitCounter();
     int checkSumCounter();
+    int getCheckSum();
 
     bool checkStop();
     bool checkParitydata();

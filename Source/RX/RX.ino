@@ -20,20 +20,29 @@ void setup()
 
 void loop() 
 { 
-  byte message[4];
+  byte message[4]; // demo message..
+    message[0] = 0b10101010; // Byte de start  10101010
+    message[1] = 0b10010011; // parte alta de potvalue
+    message[2] = 0b11110011;  // parte baja de potvalue
+    message[3] = 0b01010101; // byte de stop 01010101
+
   byte* buffer = &message[0];
   byte messageLenght = sizeof(message);
 
   format.initFormat(buffer);
 
-  if (module.recv(buffer,&messageLenght))
-  {
+  //if (module.recv(buffer,&messageLenght))
+  //{
     if (format.checkStart() && format.checkParity() && format.checkSum() && format.checkStop())
-    {
+   {
       byte highData = format.gethighData();
       byte lowData = format.getlowData();
       potValue = word(highData, lowData);
+      Serial.println(potValue,BIN);
+      
       analogWrite(PWM_PIN, map(potValue, 0, 1023, 0, 255)); 
+      
     }
-  }
+  //}
+  delay(1000);
 }
