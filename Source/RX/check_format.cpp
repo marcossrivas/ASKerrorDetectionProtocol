@@ -33,8 +33,22 @@ int CheckFormat::bitCounter()//listo
         highCounter += highData & 1;
         highData = highData >> 1;
     }
-    
+   
     return dataBitCounter = (lowCounter + highCounter);
+}
+
+int CheckFormat::checkSumCounter()
+{
+    int CheckSumCount = 0;
+    int checkSum = this->checkSumData;
+
+    for(int i = 0; i<4; i++)
+    {
+        CheckSumCount += checkSum & 1;
+        checkSum = checkSum >> 1;
+    }
+
+    return checkSumCt = CheckSumCount;
 }
 
 bool CheckFormat::checkStart()//listo
@@ -43,19 +57,43 @@ bool CheckFormat::checkStart()//listo
     else {return false;}
 }
 
-bool CheckFormat::checkParity()//falta estaaa
+bool CheckFormat::checkParitydata()
 {
+    int dataParityBitTx;
     dataParityBit = (highData & 0b01000000) >> 6;
+
+    if (dataBitCounter % 2 == 0) {dataParityBitTx = 0;}
+    else {dataParityBitTx = 1;}
+
+    if (dataParityBit == dataParityBitTx) {return true;}
+    else {return false;}
+}
+
+bool CheckFormat::checkParityCheckSum()
+{
+    int checkSumParityBitTx;
     checkSumParityBit = (highData & 0b10000000) >> 7;
 
-///////////////////check parity again...
+    if(checkSumCt %2 == 0){checkSumParityBitTx = 0;}
+    else {checkSumParityBitTx = 1;}
+
+    if (checkSumParityBit == checkSumParityBitTx) {return true;}
+    else {return false;}
 }
+
+bool CheckFormat::checkParity()//falta estaaa
+{
+    if(checkParitydata() && checkParityCheckSum()) {return true;}
+    else {return false;}
+}
+
 bool CheckFormat::checkSum()//listo
 {
   checkSumData = (highData & 0b00111100) >> 2;
   if (checkSumData == dataBitCounter) {return true;}
   else {return false;}
 }
+
 bool CheckFormat::checkStop() //listo
 {
     if (stopByte == 0b01010101) {return true;}

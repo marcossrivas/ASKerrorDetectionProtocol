@@ -13,8 +13,10 @@ private:
     int checkSumData {}; //4 bit data
     int dataParityBit {}; //1 bit data
     int checkSumParityBit {}; //1 bit data
-    int dataBitCounter{};
 
+    int dataBitCounter{}; 
+    int checkSumCt{}; 
+    
     uint8_t rawLowData {};
     uint8_t rawHighData {};
 
@@ -26,15 +28,17 @@ public:
     void extractRawData();
 
     int bitCounter();
+    int checkSumCounter();
 
     bool checkStop();
+    bool checkParitydata();
+    bool checkParityCheckSum();
     bool checkParity();
     bool checkSum();
     bool checkStart();
-    
+
     uint8_t getlowData();
     uint8_t gethighData();
 
     ~CheckFormat() {}
-
 };

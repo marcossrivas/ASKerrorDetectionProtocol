@@ -36,5 +36,4 @@ void loop()
       analogWrite(PWM_PIN, map(potValue, 0, 1023, 0, 255)); 
     }
   }
-  
 }

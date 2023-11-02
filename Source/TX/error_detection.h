@@ -14,7 +14,7 @@ private:
 
 public:
 
-   ErrorDetec() : lowData(0) , highData(0) {}
+    ErrorDetec() : lowData(0) , highData(0) {}
 
     void updateData(const uint8_t& lowData,const uint8_t& highData);
     int bitCounter();

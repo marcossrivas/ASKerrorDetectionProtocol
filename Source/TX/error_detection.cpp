@@ -27,7 +27,7 @@ int ErrorDetec::dataParity()
 {
     if (checkSum % 2 == 0) {dataParityBit = 0;}
     else {dataParityBit = 1;}
-
+ 
     return dataParityBit;
 }
 
