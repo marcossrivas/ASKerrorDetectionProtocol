@@ -1,6 +1,6 @@
-#include "error_detection.h"
+#include "Encoder.h"
 
-int ErrorDetec::bitCounter()
+int Encoder::bitCounter()
 {
     int lowCounter = 0;
     uint8_t lowData = this->lowData; //cuento bits parte baja
@@ -23,7 +23,7 @@ int ErrorDetec::bitCounter()
     return checkSum = (lowCounter + highCounter);
 }
 
-int ErrorDetec::dataParity()
+int Encoder::dataParity()
 {
     if (checkSum % 2 == 0) {dataParityBit = 0;}
     else {dataParityBit = 1;}
@@ -31,7 +31,7 @@ int ErrorDetec::dataParity()
     return dataParityBit;
 }
 
-int ErrorDetec::checksumParity()
+int Encoder::checksumParity()
 {
     int CheckSumCount = 0;
     int checkSum = this->checkSum;
@@ -48,7 +48,7 @@ int ErrorDetec::checksumParity()
     return checkSumParityBit;
 }
 
-void ErrorDetec::updateData(const uint8_t& lowData,const uint8_t& highData)
+void Encoder::updateData(const uint8_t& lowData,const uint8_t& highData)
 {
     this->lowData = lowData;
     this->highData = highData;
@@ -57,15 +57,14 @@ void ErrorDetec::updateData(const uint8_t& lowData,const uint8_t& highData)
     checksumParity();
 }
 
-uint8_t ErrorDetec::getlowData()
+uint8_t Encoder::getlowData()
 {
     return lowData;
 }
 
-uint8_t ErrorDetec::gethighData()
+uint8_t Encoder::gethighData()
 {
     uint8_t highData = (checkSumParityBit << 7) | (dataParityBit << 6) | (checkSum << 2) | this->highData;
-    //uint8_t highData = (checkSumParityBit * 128) + (dataParityBit * 64) + (checkSum * 4) + this->highData;
     return highData;
 }
 
