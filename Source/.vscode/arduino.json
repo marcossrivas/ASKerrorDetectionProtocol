@@ -1,6 +1,4 @@
 {
-    "configuration": "cpu=atmega2560",
     "board": "arduino:avr:mega",
-    "port": "COM6",
-    "sketch": "TX\\anomalyDet.cpp"
+    "port": "COM6"
 }
