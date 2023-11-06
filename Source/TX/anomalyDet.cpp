@@ -1,21 +1,21 @@
 #include "anomalyDet.h"
 
-void PotAnomalyDet::fillBuffer()
+void Buffer::fillBuffer()
 {
     buffer[position] = potData;
     position -= 1;
     bufferSizeCount += 1;
 }
 
-void PotAnomalyDet::checkBufferStatus()
+void Buffer::checkBufferStatus()
 {
     if (bufferSizeCount == buffer_size)
     {
-        boolFillBuffer = true;
+        bufferStatus = true;
     }
 }
 
-void PotAnomalyDet::processPotData()
+void PotAnomalyDet::processPotData() // Metodo para detectar si el valor leido supera el umbral establecido con los valores guardados en el buffer.
 {
     for (int i = 0; i < buffer_size; i++)
     {
@@ -27,7 +27,7 @@ void PotAnomalyDet::processPotData()
     }
 }
 
-void PotAnomalyDet::updateBuffer()
+void Buffer::updateBuffer()
 {
     for (int i = 0; i < buffer_size; i++)
     {
@@ -36,14 +36,17 @@ void PotAnomalyDet::updateBuffer()
     buffer[0] = potData;
 }
 
-void PotAnomalyDet::anomalyDet(const uint16_t& potData)
+
+/// --  Process block - ///
+
+void PotAnomalyDet::anomalyDet(const uint16_t& potData) 
 {
     this->potData = potData;
     wrongData = false;
 
     checkBufferStatus();
 
-    if(boolFillBuffer==false)
+    if(bufferStatus==false)
     {
         fillBuffer();   
     }
@@ -57,7 +60,9 @@ void PotAnomalyDet::anomalyDet(const uint16_t& potData)
     }
 }
 
-uint16_t PotAnomalyDet::getLastValue()
+/// --- ///
+
+uint16_t Buffer::getLastValue()
 {
   return buffer[0];
 }

@@ -26,7 +26,7 @@ public:
     int dataParity();
     int checksumParity();
 
-    // Metodos para obtener parte alta y parte alta codificada.
+    // Metodos para obtener parte baja y parte baja codificada.
     uint8_t getlowData();
     uint8_t gethighData();
 

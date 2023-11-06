@@ -1,60 +1,68 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-//-- proyecto: control riguroso de consistencia de datos enviados por un potenciometro atravez de un transmisor 433mhz OOK. 
-//-- orientado a aplicaciones que no se necesitan altas velocidades de transmision de datos y admiten una minima latencia(depende del hardware)
-// -- control pot value noises en tx
-// -- heavy error detection entre tx-rx. no hay correccion solo deteccion
-//usar ifdef para anomaly detections
+class Buffer // Circular Buffer. Creo buffer para almacenar temporalmente los valores pasados del ADC(pot)
+{
+protected:
 
-class PotAnomalyDet 
-{   
+    uint16_t* buffer {};
+    uint16_t potData {}; // Datos de 2 bytes (potenciometro)
+    const int buffer_size {}; 
+    bool bufferStatus {}; // true Full // false Not full 
+
 private:
 
-    uint16_t potData {};
-    uint16_t* buffer {};
-
-    const int buffer_size {};
-    const int threshold {};
-
+    // Variables auxiliares.
     int bufferSizeCount {};
-    bool boolFillBuffer {};
     int position {};
-
-    bool wrongData {};
 
 public:
 
-    PotAnomalyDet(int buffer_size,int threshold) : buffer_size(buffer_size) , threshold(threshold)
+    Buffer(int buffer_size) : buffer_size(buffer_size)
     {
-        buffer = new uint16_t[buffer_size]; //size 4 words of 2 bytes... test
+        buffer = new uint16_t[buffer_size]; // Creo buffer segun el tamaño inicializado
 
-        boolFillBuffer = false;
+        bufferStatus = false;
         
+        //Init variables aux.
         bufferSizeCount = 0;
         position = buffer_size - 1;
 
-        //init buffer
+        //Inicializo buffer
         for (int i = 0; i < buffer_size; i++)
         {
             buffer[i] = 0;
         }
     }
 
-    void checkBufferStatus();
+    void fillBuffer(); // Metodo para llenar buffer
+    void checkBufferStatus(); // Metodo para controlar estado del buffer mediante variable bufferStatus.
+    void updateBuffer(); // Metodo para actualizar buffer. (desplazamiento y escritura).
 
-    void fillBuffer();
-    void processPotData();
-    void updateBuffer();
+    uint16_t getLastValue();// Metodo para obtener ultimo valor guardado en el buffer.
 
-    void anomalyDet(const uint16_t& potData);
-
-    bool getanomalyDet();
-    uint16_t getLastValue();
-    
-    ~PotAnomalyDet()
+    virtual ~Buffer()
     {
-        delete[] buffer;
+        delete[] buffer; 
     }
-    
+};
+
+
+class PotAnomalyDet : public Buffer // Deteccion de anomalias (Clase orientada a realizar procesos de valor actual con pasados almacenados en el buffer)
+{   
+private:
+
+    const int threshold {}; 
+    bool wrongData {};
+
+public:
+
+    PotAnomalyDet(int buffer_size,int threshold) : Buffer(buffer_size) , threshold(threshold) {}
+
+    void processPotData(); // Metodo para comparar valor actual leido con valores guardados en el buffer
+    void anomalyDet(const uint16_t& potData); // Metodo para comparar valor actual con pasados. Usa variable umbral.
+    bool getanomalyDet(); // Metodo para obtener valor booleano si se detecto anomalia.
+ 
+    ~PotAnomalyDet() {}
+
 };

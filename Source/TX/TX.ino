@@ -3,19 +3,29 @@
 #include "anomalyDet.h"
 
 #define POT_INPUT A0 // Declaro el pin que voy a usar para el potenciometro (analog input).
+
+
+//-- Codigo de deteccion de anomalias en lectura de potValue --// 
+
+// ACTIVAR -> PIN 2 digital a Vcc /// DESACTIVAR -> PIN 2 digital a Gnd.
 #define ENABLE_ANOMALY_DET_PIN 2 // Declaro pin que voy a usar para activar deteccion de anomalias en el potenciometro.
+//FUNCIONAMIENTO -> Se compara valor actual con anteriores(BUFFER_SIZE) segun un umbral (THRESHOLD).
+#define ANOMALY_DET_BUFFER_SIZE 1 // Declaro el tamaño del buffer que voy a usar para deteccion de anomalias. En este caso solo comparo con valor pasado
+#define ANOMALY_DET_THRESHOLD 100 // Declaro el umbral para que un dato sea detectado como anomalia.
+
+//---//
 
 RH_ASK module(4000); // Inicializo objeto module de la clase RH_ASK con el constructor parametrizado con bit rate.
 Encoder encoder;  // Checksum + Paridad.
-PotAnomalyDet potAnomaly(1,100); // 
+PotAnomalyDet potAnomaly(ANOMALY_DET_BUFFER_SIZE, ANOMALY_DET_THRESHOLD); // Deteccion de anomalias
 
-int potValue {}; // aADC 10 bit (0-1023) donde esta conectado el potenciometro (fondo escala = 5v).
+int potValue {}; // ADC 10 bit (0-1023) donde esta conectado el potenciometro (fondo escala = 5v).
 
 // Espacio en memoria para almacenar mensajes recibidos
 byte message[4];
 byte* messagePtr = &message[0];
 
-// -- SETUP -- //
+// -- ARDUINO -- SETUP -- //
 
 void setup() 
 {
@@ -45,7 +55,7 @@ void sendData(int potValue) //Metodo para enviar informacion.
 }
 
 
-// -- LOOP -- //
+// -- ARDUINO -- LOOP -- //
 
 void loop() 
 {
@@ -62,7 +72,7 @@ void loop()
     }
     else
     {
-      // SI detecto anomalia. se queda en valor anterior guardado en el buffer. Se debe resetar Arduino.
+      // SI detecto anomalia. Se queda en valor anterior guardado en el buffer. Se debe resetar Arduino.
       Serial.println("--- ANOMALY DETECTED ---"); 
       while(true) 
       {
