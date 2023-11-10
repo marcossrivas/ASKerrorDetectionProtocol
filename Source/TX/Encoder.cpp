@@ -1,5 +1,7 @@
 #include "Encoder.h"
 
+// Proposito de cada metodo anunciado en header.
+
 int Encoder::bitCounter()
 {
     // Cuento bits parte baja.

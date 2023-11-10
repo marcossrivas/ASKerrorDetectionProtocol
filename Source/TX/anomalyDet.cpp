@@ -1,5 +1,7 @@
 #include "anomalyDet.h"
 
+// Proposito de cada metodo anunciado en header.
+
 void Buffer::fillBuffer()
 {
     buffer[position] = potData;

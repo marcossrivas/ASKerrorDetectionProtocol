@@ -27,7 +27,6 @@ void setup()
   pinMode(PWM_PIN, OUTPUT);
 }
 
-
 // -- LOOP -- //
 
 void loop() 
@@ -47,7 +46,6 @@ void loop()
   }
   else
   {
-    Serial.println("No signal!");
-    analogWrite(PWM_PIN, map(potValue, 0, 1023, 0, 255)); //Si no tengo señal mantengo el valor del led. 
+    analogWrite(PWM_PIN, map(potValue, 0, 1023, 0, 255)); //Si se corta la transmision, mantengo el led en ese estado.
   }
 }

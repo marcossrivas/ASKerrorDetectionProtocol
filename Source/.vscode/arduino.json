@@ -1,4 +1,5 @@
 {
     "board": "arduino:avr:mega",
-    "port": "COM6"
+    "port": "COM6",
+    "sketch": "RX\\RX.ino"
 }

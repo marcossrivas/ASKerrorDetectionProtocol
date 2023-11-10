@@ -68,19 +68,17 @@ bool Decoder::checkSum()
 
 bool Decoder::checkParitydata() 
 {
-    int dataParityBitTx;
     dataParityBit = (highData & 0b01000000) >> 6; // Extraigo bit de paridad.
 
-    if ((dataBitCounter + dataParityBitTx) % 2 == 0) {return true;} // Calculo paridad de data recibida con el bit de paridad agregado.
+    if ((dataBitCounter + dataParityBit) % 2 == 0) {return true;} // Calculo paridad de data recibida con el bit de paridad agregado.
     else {return false;}
 }
 
-bool Decoder::checkParityCheckSum() //listo
+bool Decoder::checkParityCheckSum() 
 {
-    int checkSumParityBitTx;
     checkSumParityBit = (highData & 0b10000000) >> 7; // Extraigo bit de paridad.
 
-    if((checkSumCt + checkSumParityBitTx) % 2 == 0) {return true;} // Calculo paridad del checksum con el bit de paridad agregado.
+    if((checkSumCt + checkSumParityBit) % 2 == 0) {return true;} // Calculo paridad del checksum con el bit de paridad agregado.
     else {return false;}
 }
 
