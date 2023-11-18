@@ -6,4 +6,4 @@ Alumnos: Dylan Pipoli, Marcos Rivas.
 2- Deteccion de errores usando checksum y paridad.
 3- Deteccion de anomalias en los datos leidos del potenciometro. 
 
-Se recomienda empezar lectura del codigo por TX.ino
+Se recomienda leer informe antes de empezar la lectura del codigo. 
