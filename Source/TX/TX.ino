@@ -44,10 +44,10 @@ void sendData(int potValue) //Método para enviar información.
 {
   encoder.updateData(lowByte(potValue),highByte(potValue));
 
-  message[0] = 0b10101010; // byte de start 0x55
+  message[0] = 0b10101010; // byte de start 0xAA
   message[1] = encoder.gethighData(); // parte alta de potValue.
   message[2] = encoder.getlowData();  // parte baja de potValue.
-  message[3] = 0b01010101; // byte de stop 0xAA
+  message[3] = 0b01010101; // byte de stop 0x55
 
   module.send(messagePtr, sizeof(message));// Método para enviar mensaje.
 
