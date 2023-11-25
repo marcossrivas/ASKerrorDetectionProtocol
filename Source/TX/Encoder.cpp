@@ -1,6 +1,6 @@
 #include "Encoder.h"
 
-// Proposito de cada metodo anunciado en header.
+// Propósito de cada método anunciado en header.
 
 int Encoder::bitCounter()
 {

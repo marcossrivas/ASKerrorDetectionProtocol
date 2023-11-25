@@ -5,13 +5,13 @@ class Decoder
 {
 private:
 
-    // Rawdata. Paquete de 4 bytes.
+    // Raw data. Paquete de 4 bytes.
     uint8_t startByte {};
     uint8_t highData {};
     uint8_t lowData {};
     uint8_t stopByte {};
 
-    // Aqui almaceno la informacion de control de errores, a la cual luego le aplico metodos de comparacion.
+    // Aquí almaceno la información de control de errores, a la cual luego le aplico métodos de omparación.
     int checkSumData {}; 
     int dataParityBit {}; 
     int checkSumParityBit {}; 
@@ -20,36 +20,38 @@ private:
     int dataBitCounter{}; 
     int checkSumCt{}; 
     
-    // Extraigo valor del potenciometro recibido.
+    // Extraigo valor del potenciómetro recibido.
     uint8_t rawLowData {};
     uint8_t rawHighData {};
 
 public:
 
-    Decoder() {}
+    Decoder() 
+    {}
 
-    // Metodo para actualizar el valor de cada byte de informacion (Rawdata variables) y ejecutar los metodos de comparacion mas adelante enunciados.
+    //  Método para actualizar el valor de cada byte de información (Raw data variables) y ejecutar los métodos de comparación más adelante enunciados.
     void init(const uint8_t* buffer); 
 
-    // Metodos de extraccion de datos.
-    void extractRawData(); // Metodo para extraer valor del potenciometro.
-    int bitCounter(); // Metodo para contar cantidad de '1' en los 10 bits del potenciometro (data).
+    // Métodos de extracción de datos.
+    void extractRawData(); // Método para extraer valor del potenciómetro.
+    int bitCounter(); // Método para contar cantidad de '1' en los 10 bits del potenciómetro (data).
 
-    int extractCheckSum(); // Metodo para extraer checksum de Rawdata.
-    int checkSumCounter(); // Metodo para contar cantidad de '1' en checksum.
+    int extractCheckSum(); // Método para extraer checksum de Rawdata.
+    int checkSumCounter(); // Método para contar cantidad de '1' en checksum.
     
-    // Metodos de control de errores.
-    bool checkStart(); // Metodo para verificar byte de start.
-    bool checkSum(); // Metodo para corroborar que el checksum esta correcto.
-    bool checkParitydata(); // Metodo para controlar paridad data.
-    bool checkParityCheckSum(); // Metodos para controlar paridad de checksum.
-    bool checkParity(); // Metodo para englobar los dos anteriores en un unico output booleano.
-    bool checkStop(); // Metodo para verificar byte de stop
+    // Métodos de control de errores.
+    bool checkStart(); // Método para verificar byte de start.
+    bool checkSum(); // Método para corroborar que el checksum está correcto.
+    bool checkParitydata(); // Método para controlar paridad data.
+    bool checkParityCheckSum(); // Métodos para controlar paridad de checksum.
+    bool checkParity(); // Método para englobar los dos anteriores en un único output booleano.
+    bool checkStop(); // Método para verificar byte de stop
     
-    //Metodos para obtener datos del potenciometro. 
+    // Métodos para obtener datos del potenciómetro. 
     uint8_t getlowData();
     uint8_t gethighData();
 
-    ~Decoder() {}
+    ~Decoder() 
+    {}
 
 };

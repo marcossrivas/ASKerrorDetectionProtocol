@@ -2,14 +2,14 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-class Buffer // Circular Buffer. Creo buffer para almacenar temporalmente los valores pasados del ADC(pot)
+class Buffer // Creo buffer (circular) para almacenar temporalmente los valores pasados del ADC(pot).
 {
 protected:
 
     uint16_t* buffer {};
-    uint16_t potData {}; // Datos de 2 bytes (potenciometro)
+    uint16_t potData {}; // Datos de 2 bytes (potenciómetro)
     const int buffer_size {}; 
-    bool bufferStatus {}; // true Full // false Not full 
+    bool bufferStatus {}; // true -> Full // false -> Not full 
 
 private:
 
@@ -19,37 +19,22 @@ private:
 
 public:
 
-    Buffer(int buffer_size) : buffer_size(buffer_size)
-    {
-        buffer = new uint16_t[buffer_size]; // Creo buffer segun el tamaño inicializado
+    Buffer(int buffer_size);
+    
+    void fillBuffer(); // Método para llenar buffer
+    void checkBufferStatus(); // Método para controlar estado del buffer mediante variable bufferStatus.
+    void updateBuffer(); // Método para actualizar buffer. (desplazamiento y escritura).
 
-        bufferStatus = false;
-        
-        //Init variables aux.
-        bufferSizeCount = 0;
-        position = buffer_size - 1;
+    uint16_t getLastValue();// Método para obtener último valor guardado en el buffer.
 
-        //Inicializo buffer
-        for (int i = 0; i < buffer_size; i++)
-        {
-            buffer[i] = 0;
-        }
-    }
+    ~Buffer();
 
-    void fillBuffer(); // Metodo para llenar buffer
-    void checkBufferStatus(); // Metodo para controlar estado del buffer mediante variable bufferStatus.
-    void updateBuffer(); // Metodo para actualizar buffer. (desplazamiento y escritura).
-
-    uint16_t getLastValue();// Metodo para obtener ultimo valor guardado en el buffer.
-
-    virtual ~Buffer()
-    {
-        delete[] buffer; 
-    }
 };
 
+// Detección de anomalías: Clase orientada a realizar procesos de comparación ..
+// .. de valor actual con pasados (almacenados en el buffer)
 
-class PotAnomalyDet : public Buffer // Deteccion de anomalias (Clase orientada a realizar procesos de valor actual con pasados almacenados en el buffer)
+class PotAnomalyDet : public Buffer 
 {   
 private:
 
@@ -58,12 +43,14 @@ private:
 
 public:
 
-    PotAnomalyDet(int buffer_size,int threshold) : Buffer(buffer_size) , threshold(threshold) {}
+    PotAnomalyDet(int buffer_size,int threshold) : Buffer(buffer_size) , threshold(threshold) 
+    {}
 
-    void processPotData(); // Metodo para comparar valor actual leido con valores guardados en el buffer
-    void anomalyDet(const uint16_t& potData); // Metodo para comparar valor actual con pasados. Usa variable umbral.
-    bool getanomalyDet(); // Metodo para obtener valor booleano si se detecto anomalia.
+    void processPotData(); // Método para comparar valor actual leido con valores guardados en el buffer.
+    void anomalyDet(const uint16_t& potData); // Método para comparar valor actual con pasados. Usa variable umbral.
+    bool getanomalyDet(); // Método para obtener valor booleano si se detectó anomalía.
  
-    ~PotAnomalyDet() {}
+    ~PotAnomalyDet() 
+    {}
 
 };

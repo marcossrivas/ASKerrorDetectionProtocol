@@ -18,15 +18,15 @@ public:
 
     Encoder() : lowData(0) , highData(0) {} 
 
-    // Metodos para actualizar variables y ejecutar metodos desarrollados mas adelante.
+    // Métodos para actualizar variables y ejecutar metodos desarrollados mas adelante.
     void updateData(const uint8_t& lowData,const uint8_t& highData);
 
-    // Metodos para generar chechsum y bits de paridad
-    int bitCounter();
-    int dataParity();
+    // Métodos para generar chechsum y bits de paridad
+    int bitCounter(); // Método para contar cantidad de '1' en los 10 bits del potenciómetro (data). Útil para generar checksum y bits de paridad.
+    int dataParity(); 
     int checksumParity();
 
-    // Metodos para obtener parte baja y parte baja codificada.
+    // Métodos para obtener parte baja y parte baja codificada.
     uint8_t getlowData();
     uint8_t gethighData();
 

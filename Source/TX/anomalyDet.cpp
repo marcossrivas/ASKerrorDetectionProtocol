@@ -1,6 +1,24 @@
 #include "anomalyDet.h"
 
-// Proposito de cada metodo anunciado en header.
+// Propósito de cada método anunciado en header.
+
+// Creo buffer según el tamaño inicializado
+Buffer::Buffer(int buffer_size) : buffer_size(buffer_size)
+{
+    buffer = new uint16_t[buffer_size]; 
+
+    bufferStatus = false;
+    
+    //Init variables aux.
+    bufferSizeCount = 0;
+    position = buffer_size - 1;
+
+    //Inicializo buffer
+    for (int i = 0; i < buffer_size; i++)
+    {
+        buffer[i] = 0;
+    }
+}
 
 void Buffer::fillBuffer()
 {
@@ -17,7 +35,7 @@ void Buffer::checkBufferStatus()
     }
 }
 
-void PotAnomalyDet::processPotData() // Metodo para detectar si el valor leido supera el umbral establecido con los valores guardados en el buffer.
+void PotAnomalyDet::processPotData() // Método para detectar si el valor leído supera el umbral establecido con los valores guardados en el buffer.
 {
     for (int i = 0; i < buffer_size; i++)
     {
@@ -39,7 +57,7 @@ void Buffer::updateBuffer()
 }
 
 
-/// --  Process block - ///
+/// --  Process block -- ///
 
 void PotAnomalyDet::anomalyDet(const uint16_t& potData) 
 {
@@ -72,6 +90,11 @@ uint16_t Buffer::getLastValue()
 bool PotAnomalyDet::getanomalyDet()
 {
     return wrongData;
+}
+
+Buffer::~Buffer()
+{
+    delete[] buffer; 
 }
 
 

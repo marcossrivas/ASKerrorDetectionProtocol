@@ -1,25 +1,25 @@
-#include "RH_ASK.h" // Header de la libreria RadioHead para utilizar modulo ASK. Reference: https://www.airspayce.com/mikem/arduino/RadioHead/index.html
+#include "RH_ASK.h" // Header de la librería RadioHead para utilizar modulo ASK. Reference: https://www.airspayce.com/mikem/arduino/RadioHead/index.html
 #include "Encoder.h"
 #include "anomalyDet.h"
 
-#define POT_INPUT A0 // Declaro el pin que voy a usar para el potenciometro (analog input).
+#define POT_INPUT A0 // Declaro el pin que voy a usar para el potenciómetro (analog input).
 
 
-//-- Codigo de deteccion de anomalias en lectura de potValue --// 
+//-- Código de detección de anomalías en lectura de potValue (puede ser desactivado) --// 
 
 // ACTIVAR -> PIN 2 digital a Vcc /// DESACTIVAR -> PIN 2 digital a Gnd.
-#define ENABLE_ANOMALY_DET_PIN 2 // Declaro pin que voy a usar para activar deteccion de anomalias en el potenciometro.
-//FUNCIONAMIENTO -> Se compara valor actual con anteriores(BUFFER_SIZE) segun un umbral (THRESHOLD).
-#define ANOMALY_DET_BUFFER_SIZE 1 // Declaro el tamaño del buffer que voy a usar para deteccion de anomalias. En este caso solo comparo con valor pasado
-#define ANOMALY_DET_THRESHOLD 100 // Declaro el umbral para que un dato sea detectado como anomalia.
+#define ENABLE_ANOMALY_DET_PIN 2 // Declaro pin que voy a usar para activar deteccion de anomalias en el potenciómetro.
+//FUNCIONAMIENTO -> Se compara valor actual con anteriores(BUFFER_SIZE) según un umbral (THRESHOLD).
+#define ANOMALY_DET_BUFFER_SIZE 1 // Declaro el tamaño del buffer que voy a usar para deteccion de anomalias. En este caso solo comparo con valor pasado.
+#define ANOMALY_DET_THRESHOLD 100 // Declaro el umbral para que un dato sea detectado como anomalía.
 
 //---//
 
-RH_ASK module(4000); // Inicializo objeto module de la clase RH_ASK con el constructor parametrizado con bit rate.
+RH_ASK module(2500); // Inicializo objeto module de la clase RH_ASK con el constructor parametrizado con bit rate. Pin de datos(default) -> 12 
 Encoder encoder;  // Checksum + Paridad.
-PotAnomalyDet potAnomaly(ANOMALY_DET_BUFFER_SIZE, ANOMALY_DET_THRESHOLD); // Deteccion de anomalias
+PotAnomalyDet potAnomaly(ANOMALY_DET_BUFFER_SIZE, ANOMALY_DET_THRESHOLD); // Detección de anomalías.
 
-int potValue {}; // ADC 10 bit (0-1023) donde esta conectado el potenciometro (fondo escala = 5v).
+int potValue {}; // ADC 10 bit (0-1023) donde esta conectado el potenciómetro (fondo escala = 5v).
 
 // Espacio en memoria para almacenar mensajes recibidos
 byte message[4];
@@ -38,9 +38,9 @@ void setup()
 }
 
 
-int ENABLE_ANOMALY_DET = digitalRead(ENABLE_ANOMALY_DET_PIN); // lectura del pin para activar deteccion de anomalias en el potenciometro.
+int ENABLE_ANOMALY_DET = digitalRead(ENABLE_ANOMALY_DET_PIN); // Lectura del pin para activar detección de anomalías en el potenciómetro.
 
-void sendData(int potValue) //Metodo para enviar informacion.
+void sendData(int potValue) //Método para enviar información.
 {
   encoder.updateData(lowByte(potValue),highByte(potValue));
 
@@ -49,9 +49,9 @@ void sendData(int potValue) //Metodo para enviar informacion.
   message[2] = encoder.getlowData();  // parte baja de potValue.
   message[3] = 0b01010101; // byte de stop 0xAA
 
-  module.send(messagePtr, sizeof(message));// Metodo para enviar mensaje.
+  module.send(messagePtr, sizeof(message));// Método para enviar mensaje.
 
-  module.waitPacketSent();// Espera que se envie.
+  module.waitPacketSent();// Espera que se envíe.
 }
 
 
@@ -59,20 +59,20 @@ void sendData(int potValue) //Metodo para enviar informacion.
 
 void loop() 
 {
-  potValue = analogRead(POT_INPUT); //lee valor del potenciometro.
+  potValue = analogRead(POT_INPUT); //Lee valor del potenciómetro.
     
   if (ENABLE_ANOMALY_DET==HIGH)
   {
-    potAnomaly.anomalyDet(potValue); //Deteccion anomalias.
+    potAnomaly.anomalyDet(potValue); //Detección anomalías.
     
     if (!potAnomaly.getanomalyDet()) 
     {
-      // NO detecto anomalia.
-      sendData(potValue); //Funcion implementada arriba.
+      // NO detectó anomalía.
+      sendData(potValue); //Función implementada arriba.
     }
     else
     {
-      // SI detecto anomalia. Se queda en valor anterior guardado en el buffer. Se debe resetar Arduino.
+      // SI detectó anomalía. Se queda en valor anterior guardado en el buffer. Se debe resetar Arduino.
       Serial.println("--- ANOMALY DETECTED ---"); 
       while(true) 
       {
@@ -82,6 +82,6 @@ void loop()
   }
   else // ENABLE_ANOMALY_DET==LOW
   {
-    sendData(potValue); //Funcion implementada arriba.
+    sendData(potValue); //Función implementada arriba.
   }
 }
