@@ -1,9 +1,11 @@
-Alumnos: Dylan Pipoli, Marcos Rivas.
+Alumnos: Pipoli Gian Dylan, Rivas Marcos Sebastián
 
-[TX - RX] 433MHz Rf ASK module (MX-FS-03V) && Arduino
+Cátedra: Comunicaciones Digitales.
 
-1- Controlar intesidad de un led con un potenciometro. 
-2- Deteccion de errores usando checksum y paridad.
-3- Deteccion de anomalias en los datos leidos del potenciometro. 
+Enlace entre dos Arduinos, utilizando módulos OOK 433MHz.
 
-Se recomienda leer informe antes de empezar la lectura del codigo. 
+Objetivos: (Se implementaron los tres)
+1- Controlar la intensidad de un led con un potenciómetro. 
+2- Detección de errores usando checksum y paridad.
+3- Detección de anomalías en los datos leídos del potenciómetro. 
+
