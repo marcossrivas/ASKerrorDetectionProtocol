@@ -1,16 +1,16 @@
 #include "Decoder.h"
 
-// Propósito de cada método anunciado en header.
+// Purpose of each method declared in the header.
 
 void Decoder::extractRawData()
 {
     rawLowData = lowData;
-    rawHighData = (highData & 0b00000011); // AND bit a bit con mascara 00000011 para extraer informacion en esa posicion.
+    rawHighData = (highData & 0b00000011); // Performing bitwise AND with a mask 00000011 to extract information at that position.
 }
 
 int Decoder::bitCounter()
 {
-    // Cuento bits parte baja.
+    // Counting bits in the low part.
     int lowCounter = 0;
     uint8_t lowData = this->lowData; 
 
@@ -20,7 +20,7 @@ int Decoder::bitCounter()
         lowData = lowData >> 1;
     }
 
-    // Cuento bits parte alta.
+    // Counting bits in the high part.
     int highCounter = 0;
     uint8_t highData = this->highData; 
     
@@ -35,7 +35,7 @@ int Decoder::bitCounter()
 
 int Decoder::extractCheckSum()
 {
-    return checkSumData = (highData & 0b00111100) >> 2; // AND bit a bit con máscara 00111100 para extraer información en esa posición & Desplazamiento hacia a la der. x2.
+    return checkSumData = (highData & 0b00111100) >> 2; // Performing bitwise AND with a mask 00111100 to extract information at that position & Right shift by x2.
 }
 
 int Decoder::checkSumCounter()
@@ -52,7 +52,7 @@ int Decoder::checkSumCounter()
     return checkSumCt = CheckSumCount;
 }
 
-//// --- Métodos de control de error --- ////
+//// --- Error control methods --- ////
 
 bool Decoder::checkStart()
 {
@@ -62,23 +62,23 @@ bool Decoder::checkStart()
 
 bool Decoder::checkSum()
 {
-  if (checkSumData == dataBitCounter) {return true;} // Comparo el valor extraído del checksum con la suma de '1' recibidos.
+  if (checkSumData == dataBitCounter) {return true;} // Comparing the extracted checksum value with the sum of received '1' bits.
   else {return false;}
 }
 
 bool Decoder::checkParitydata() 
 {
-    dataParityBit = (highData & 0b01000000) >> 6; // Extraigo bit de paridad.
+    dataParityBit = (highData & 0b01000000) >> 6; // Extracting the parity bit.
 
-    if ((dataBitCounter + dataParityBit) % 2 == 0) {return true;} // Verifico paridad.
+    if ((dataBitCounter + dataParityBit) % 2 == 0) {return true;} // Verifying parity.
     else {return false;}
 }
 
 bool Decoder::checkParityCheckSum() 
 {
-    checkSumParityBit = (highData & 0b10000000) >> 7; // Extraigo bit de paridad.
+    checkSumParityBit = (highData & 0b10000000) >> 7; // Extracting the parity bit.
 
-    if((checkSumCt + checkSumParityBit) % 2 == 0) {return true;} // Verifico paridad.
+    if((checkSumCt + checkSumParityBit) % 2 == 0) {return true;} // Verifying parity.
     else {return false;}
 }
 

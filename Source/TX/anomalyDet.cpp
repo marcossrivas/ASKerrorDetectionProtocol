@@ -1,8 +1,8 @@
 #include "anomalyDet.h"
 
-// Propósito de cada método anunciado en header.
+// Purpose of each method declared in the header.
 
-// Creo buffer según el tamaño inicializado
+// Creating a buffer based on the initialized size.
 Buffer::Buffer(int buffer_size) : buffer_size(buffer_size)
 {
     buffer = new uint16_t[buffer_size]; 
@@ -13,7 +13,7 @@ Buffer::Buffer(int buffer_size) : buffer_size(buffer_size)
     bufferSizeCount = 0;
     position = buffer_size - 1;
 
-    //Inicializo buffer
+    //Init buffer
     for (int i = 0; i < buffer_size; i++)
     {
         buffer[i] = 0;
@@ -35,7 +35,7 @@ void Buffer::checkBufferStatus()
     }
 }
 
-void PotAnomalyDet::processPotData() // Método para detectar si el valor leído supera el umbral establecido con los valores guardados en el buffer.
+void PotAnomalyDet::processPotData() // Method to detect if the read value exceeds the threshold set with the values stored in the buffer.
 {
     for (int i = 0; i < buffer_size; i++)
     {

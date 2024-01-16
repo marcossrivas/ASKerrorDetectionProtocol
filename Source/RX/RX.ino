@@ -1,14 +1,14 @@
-#include <RH_ASK.h> // Header de la librería RadioHead para utilizar modulo ASK. Reference: https://www.airspayce.com/mikem/arduino/RadioHead/index.html
+#include <RH_ASK.h> // Header of the RadioHead library for using the ASK module. Reference: https://www.airspayce.com/mikem/arduino/RadioHead/index.html
 #include "Decoder.h"
 
-#define PWM_PIN 6 // Defino PIN 6 de Arduino para salida PWM led.
+#define PWM_PIN 6 // Defining PIN 6 of Arduino for PWM output to the LED.
 
-RH_ASK module(2500); // Inicializo objeto module de la clase RH_ASK con el constructor parametrizado con bit rate. Pin data (default) -> 11
-Decoder decoder; // Incializo objeto de clase Decoder. Ver Decoder.h para más info.
+RH_ASK module(2500); // Initializing the module object of the RH_ASK class with the parameterized constructor using the bit rate. Default data pin -> 11.
+Decoder decoder; // Initializing an object of the Decoder class. Refer to Decoder.h for more information.
 
-int potValue {0}; // Valor del ADC (potenciómetro) recibido. 10 bits
+int potValue {0}; // Value of the received ADC (potentiometer). 10 bits.
 
-// Espacio en memoria para almacenar mensajes recibidos
+// Memory space to store received messages.
 byte message[4];
 byte* buffer = &message[0];
 byte messageLenght = sizeof(message);
@@ -18,7 +18,7 @@ byte messageLenght = sizeof(message);
 
 void setup() 
 {
-  Serial.begin(9600); // Set Baudrate transmisión serial.
+  Serial.begin(9600); // Set Baudrate Serial transmission.
   if(!module.init()) 
   {
     Serial.println("Initialization error!");
@@ -31,21 +31,21 @@ void setup()
 
 void loop() 
 { 
-  decoder.init(buffer); // Ver método init en Decoder para más info.
+  decoder.init(buffer); // Refer to the init method in Decoder for more information.
 
-  if (module.recv(buffer,&messageLenght)) // Comprueba que reciba datos y los guarda en buffer.
+  if (module.recv(buffer,&messageLenght)) // Checks for data reception and saves it in the buffer.
   {
-    if (decoder.checkStart() && decoder.checkParity() && decoder.checkSum() && decoder.checkStop()) // Condicionales para declarar mensaje válido.
+    if (decoder.checkStart() && decoder.checkParity() && decoder.checkSum() && decoder.checkStop()) // Conditionals to declare a valid message.
    {
-      byte highData = decoder.gethighData(); // Obtengo parte alta de potenciómetro.
-      byte lowData = decoder.getlowData(); // Obtengo parte baja de potenciómetro.
-      potValue = word(highData, lowData);// Unifico los dos bytes anteriores en una palabra de 2 bytes.
+      byte highData = decoder.gethighData(); // Obtaining the high part of the potentiometer.
+      byte lowData = decoder.getlowData(); // Obtaining the low part of the potentiometer.
+      potValue = word(highData, lowData);// Combining the previous two bytes into a 2-byte word.
       
-      analogWrite(PWM_PIN, map(potValue, 0, 1023, 0, 255)); // Mapeo los valores recibidos del potenciómetro (de 0 a 1023) de 0 a 255 para PWM. 
+      analogWrite(PWM_PIN, map(potValue, 0, 1023, 0, 255)); // Mapping the received values from the potentiometer (0 to 1023) to the range of 0 to 255 for PWM.
     }
   }
   else
   {
-    analogWrite(PWM_PIN, map(potValue, 0, 1023, 0, 255)); //Si se corta la transmisión, mantengo el led en ese estado.
+    analogWrite(PWM_PIN, map(potValue, 0, 1023, 0, 255)); // If the transmission is stop, I maintain the LED in that state.
   }
 }

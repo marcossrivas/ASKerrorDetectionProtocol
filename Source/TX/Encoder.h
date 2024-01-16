@@ -5,11 +5,11 @@ class Encoder
 {
 private:
 
-    // Parte baja y alta del ADC (potenciometro).
+    // Low and high parts of the ADC (potentiometer).
     uint8_t lowData {};
     uint8_t highData {};
 
-    // Variables para guardar checksum y bits de paridad.
+    // Variables to store checksum and parity bits.
     int checkSum {}; 
     int dataParityBit {};
     int checkSumParityBit {};
@@ -18,15 +18,15 @@ public:
 
     Encoder() : lowData(0) , highData(0) {} 
 
-    // Métodos para actualizar variables y ejecutar metodos desarrollados mas adelante.
+    // Methods to update variables and execute methods developed later on.
     void updateData(const uint8_t& lowData,const uint8_t& highData);
 
-    // Métodos para generar chechsum y bits de paridad
-    int bitCounter(); // Método para contar cantidad de '1' en los 10 bits del potenciómetro (data). Útil para generar checksum y bits de paridad.
+    // Methods to generate checksum and parity bits.
+    int bitCounter(); // Method to count the number of '1' in the 10 bits of the potentiometer (data). Useful for generating checksum and parity bits.
     int dataParity(); 
     int checksumParity();
 
-    // Métodos para obtener parte baja y parte baja codificada.
+    // Methods to obtain the low part and encoded low part.
     uint8_t getlowData();
     uint8_t gethighData();
 

@@ -1,10 +1,10 @@
 #include "Encoder.h"
 
-// Propósito de cada método anunciado en header.
+// Purpose of each method declared in the header.
 
 int Encoder::bitCounter()
 {
-    // Cuento bits parte baja.
+    // Counting bits in the low part.
     int lowCounter = 0;
     uint8_t lowData = this->lowData; 
 
@@ -14,7 +14,7 @@ int Encoder::bitCounter()
         lowData = lowData >> 1;
     }
 
-    // Cuento bits parte alta.
+    // Counting bits in the high part.
     int highCounter = 0;
     uint8_t highData = this->highData; 
     
@@ -68,7 +68,7 @@ uint8_t Encoder::getlowData()
 
 uint8_t Encoder::gethighData()
 {
-    // Codifico parte alta del mensaje ( << N desplazamiento hacia la izq. N posiciones ).
+    //Encoding the high part of the message ( << N left shift. N positions ).
     uint8_t highData = (checkSumParityBit << 7) | (dataParityBit << 6) | (checkSum << 2) | this->highData; 
     return highData;
 }
